@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12233f">
+<meta name="description" content="Research Finder Pro — pencarian literatur ilmiah. Author: HARSANTOGanasBoys">
+<link rel="manifest" href="manifest.json">
+<title>Research Finder Pro</title>
+<style>
+:root{--navy:#12233f;--blue:#275dad;--bg:#f4f6fa;--card:#fff;--text:#172033;--muted:#667085;--line:#dfe5ef;--green:#087443;--amber:#9a6700}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:var(--navy);color:#fff;padding:18px 16px 16px;position:sticky;top:0;z-index:3;box-shadow:0 3px 14px #10203b20}
+.brand{font-size:21px;font-weight:800;letter-spacing:-.4px}.sub{font-size:12px;opacity:.82;margin-top:4px}.author{font-size:11px;margin-top:7px;color:#d5e5ff}
+main{max-width:760px;margin:auto;padding:14px 12px 90px}.tabs{display:flex;gap:7px;overflow:auto;padding:12px 0 3px;scrollbar-width:none}.tabs button{white-space:nowrap;border:1px solid var(--line);border-radius:999px;background:#fff;padding:10px 14px;color:var(--text);font-weight:650}.tabs button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;box-shadow:0 2px 8px #12233f08}
+h2{font-size:19px;margin:0 0 8px}h3{font-size:16px;line-height:1.35;margin:0 0 7px}p{line-height:1.5}.muted{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px;margin:10px 0}.field label{font-size:13px;font-weight:700}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:12px;font:inherit;background:white;color:var(--text)}.field textarea{min-height:78px;resize:vertical}
+.btn{border:0;border-radius:11px;padding:12px 14px;background:var(--blue);color:#fff;font-weight:750;font-size:14px;cursor:pointer}.btn.secondary{background:#e9effa;color:#193b70}.btn.danger{background:#fff0f0;color:#a32020}.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btnrow .btn{flex:1}.status{padding:10px 12px;border-radius:10px;background:#edf3ff;color:#214b89;font-size:13px;margin:10px 0}.badge{display:inline-block;font-size:11px;padding:5px 8px;border-radius:999px;background:#fff1cf;color:#825600;font-weight:750}.article{padding:14px 0;border-bottom:1px solid var(--line)}.article:last-child{border:0}.article p{margin:5px 0}.smallbtn{padding:8px 10px;font-size:12px}.empty{padding:24px 8px;text-align:center;color:var(--muted)}.tablewrap{overflow:auto}.tbl{border-collapse:collapse;width:100%;min-width:620px;font-size:12px}.tbl th,.tbl td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.tbl th{background:#eef2f8}.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#f0f5ff;border-radius:12px;padding:14px}.stat b{font-size:25px;display:block;color:#173d78}.footer{text-align:center;color:var(--muted);font-size:11px;padding:20px 0 5px}.hidden{display:none!important}a{color:#1d56a8;overflow-wrap:anywhere}
+@media(min-width:600px){main{padding:18px}.grid{grid-template-columns:1fr 1fr 1fr}.brand{font-size:24px}}
+</style>
+</head>
+<body>
+<header><div class="brand">Research Finder Pro</div><div class="sub">Pencarian literatur ilmiah • versi mobile</div><div class="author">AUTHOR: HARSANTOGanasBoys</div></header>
+<main>
+<nav class="tabs" aria-label="Navigasi">
+<button class="active" data-tab="home">Beranda</button><button data-tab="search">Pencarian</button><button data-tab="collection">Koleksi</button><button data-tab="verify">Verifikasi indeks</button><button data-tab="prior">Penelitian Terdahulu</button><button data-tab="settings">Pengaturan</button>
+</nav>
+<section id="home" class="view">
+<div class="panel"><h2>Selamat datang, Peneliti!</h2><p class="muted">Cari metadata artikel ilmiah, simpan artikel ke koleksi perangkat, dan susun tabel penelitian terdahulu.</p><div class="statgrid"><div class="stat"><b id="countHome">0</b><span>Artikel tersimpan</span></div><div class="stat"><b>OpenAlex</b><span>Sumber metadata</span></div></div><div class="btnrow"><button class="btn" data-goto="search">Cari Artikel</button><button class="btn secondary" data-goto="collection">Buka Koleksi</button></div></div>
+<div class="panel"><h3>Perhatian verifikasi indeks</h3><p class="muted">Hasil OpenAlex bukan bukti bahwa artikel terindeks Scopus atau Web of Science. Aplikasi menandai status indeks sebagai belum terverifikasi sampai ada pemeriksaan pada sumber resmi.</p></div>
+</section>
+<section id="search" class="view hidden">
+<div class="panel"><h2>Pencarian Artikel</h2><p class="muted">Masukkan kata kunci, judul, tema, variabel, teori, atau metode. Kueri dikirim ke OpenAlex.</p>
+<div class="field"><label for="query">Kata kunci / judul / tema / variabel</label><textarea id="query" placeholder="Contoh: digital transformation, supply chain resilience, SEM-PLS"></textarea></div>
+<div class="grid"><div class="field"><label for="from">Tahun dari</label><input id="from" type="number"></div><div class="field"><label for="to">Tahun sampai</label><input id="to" type="number"></div><div class="field"><label for="idx">Indeks yang dicari</label><select id="idx"><option>Semua sumber</option><option>Scopus</option><option>Web of Science</option><option>Scopus dan WoS</option></select></div></div>
+<div class="field"><label for="sort">Urutan</label><select id="sort"><option value="relevance_score:desc">Relevansi</option><option value="publication_year:desc">Tahun terbaru</option><option value="cited_by_count:desc">Jumlah sitasi (jika tersedia)</option></select></div>
+<div class="btnrow"><button class="btn" id="searchBtn">Cari Artikel</button><button class="btn secondary" id="resetBtn">Reset</button></div><div id="searchStatus" class="status hidden" role="status"></div></div>
+<div class="panel"><h2>Hasil pencarian</h2><div id="results" class="empty">Belum ada hasil. Jalankan pencarian dengan koneksi internet.</div></div>
+</section>
+<section id="verify" class="view hidden">
+<div class="panel"><h2>Pemeriksaan Indeks Resmi</h2>
+<p class="muted">Tanpa API key, aplikasi tidak dapat memverifikasi indeks otomatis. Gunakan tombol sumber resmi, periksa judul/DOI, lalu catat hasil dan bukti yang Anda lihat.</p>
+<div class="field"><label for="verifyTitle">Judul artikel atau DOI</label><input id="verifyTitle" placeholder="Masukkan judul atau DOI artikel"></div>
+<div class="btnrow"><button class="btn" id="openScopus">Periksa Scopus</button><button class="btn secondary" id="openWos">Periksa WoS</button></div>
+<div class="status">Penting: halaman hasil pencarian bukan bukti final dengan sendirinya. Cocokkan judul, DOI, jurnal, dan cakupan tahun. Simpan tautan bukti resmi bila tersedia.</div>
+</div>
+<div class="panel"><h2>Catat hasil pemeriksaan</h2>
+<div class="field"><label for="verifyArticle">Artikel dari koleksi (opsional)</label><select id="verifyArticle"><option value="">Pilih artikel</option></select></div>
+<div class="field"><label for="verifyStatus">Status hasil pemeriksaan</label><select id="verifyStatus"><option value="Belum terverifikasi">Belum terverifikasi</option><option value="Terverifikasi Scopus">Terverifikasi Scopus</option><option value="Terverifikasi WoS">Terverifikasi WoS</option><option value="Terverifikasi Scopus dan WoS">Terverifikasi Scopus dan WoS</option><option value="Tidak ditemukan bukti indeks">Tidak ditemukan bukti indeks</option><option value="Perlu pemeriksaan lanjutan">Perlu pemeriksaan lanjutan</option></select></div>
+<div class="field"><label for="verifyEvidence">URL bukti / halaman sumber resmi</label><input id="verifyEvidence" type="url" placeholder="https://..."></div>
+<div class="field"><label for="verifyNotes">Catatan pemeriksaan (jurnal, cakupan tahun, DOI, dll.)</label><textarea id="verifyNotes" placeholder="Catat apa yang benar-benar diperiksa"></textarea></div>
+<button class="btn" id="saveVerification">Simpan catatan pemeriksaan</button><div id="verifyStatusMsg" class="status hidden"></div>
+</div>
+<div class="panel"><h2>Riwayat pemeriksaan</h2><div id="verificationList" class="empty">Belum ada catatan pemeriksaan.</div></div>
+</section>
+<section id="collection" class="view hidden">
+<div class="panel"><h2>Koleksi Artikel</h2><p class="muted">Data tersimpan pada browser/perangkat ini. Ekspor sebagai CSV atau RIS untuk dipakai pada aplikasi lain.</p><div class="btnrow"><button class="btn secondary" id="exportCsv">Ekspor CSV</button><button class="btn secondary" id="exportRis">Ekspor RIS</button><button class="btn danger" id="clearAll">Hapus Semua</button></div><div id="collectionList"></div></div>
+</section>
+<section id="prior" class="view hidden">
+<div class="panel"><h2>Tabel Penelitian Terdahulu</h2><p class="muted">Tabel dibuat dari metadata artikel yang tersimpan. Klik sel untuk mengedit teks; ekspor CSV tersedia di tab Koleksi.</p><div id="priorTable" class="empty">Simpan artikel terlebih dahulu agar tabel dapat dibuat.</div></div>
+</section>
+<section id="settings" class="view hidden">
+<div class="panel"><h2>Pengaturan & Informasi</h2><p><b>Nama:</b> Research Finder Pro</p><p><b>Author:</b> HARSANTOGanasBoys</p><p><b>Versi:</b> Mobile Web 0.1.0</p><p><b>Sumber aktif:</b> OpenAlex API</p><p><b>Verifikasi Scopus/WoS:</b> Pemeriksaan manual dan pencatatan bukti tersedia; verifikasi otomatis API belum terhubung.</p><p><b>Penyimpanan:</b> localStorage browser pada perangkat ini.</p><p class="muted">Koleksi ini tidak otomatis tersinkron ke perangkat lain. Hapus data browser dapat menghapus koleksi. Ekspor cadangan secara berkala.</p><button class="btn secondary" id="installBtn">Petunjuk pasang di layar utama</button></div>
+</section>
+<div class="footer">Research Finder Pro • Author HARSANTOGanasBoys<br>Utamakan akurasi sumber dan keterlacakan metadata.</div>
+</main>
+<script>
+const $=id=>document.getElementById(id), year=new Date().getFullYear();
+$('from').value=year-4;$('to').value=year;
+let articles=load(); let verifications=loadVerifications();
+function load(){try{return JSON.parse(localStorage.getItem('rfp_articles')||'[]')}catch{return []}}
+function loadVerifications(){try{return JSON.parse(localStorage.getItem('rfp_verifications')||'[]')}catch{return []}}
+function persistVerifications(){localStorage.setItem('rfp_verifications',JSON.stringify(verifications));renderVerifications()}
+function persist(){localStorage.setItem('rfp_articles',JSON.stringify(articles));renderSaved()}
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function keyFor(a){let d=(a.doi||'').toLowerCase().replace(/^https?:\/\/doi\.org\//,'').trim();if(d)return 'doi:'+d;return 'ty:'+String(a.title||'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim()+':'+(a.year||'unknown')}
+function showTab(t){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.id!==t));document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));if(t==='collection'||t==='prior')renderSaved();if(t==='verify'){renderVerificationOptions();renderVerifications()}window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>showTab(b.dataset.goto));
+function message(s){$('searchStatus').textContent=s;$('searchStatus').classList.remove('hidden')}
+function abstractFromIndex(idx){if(!idx)return '';let pairs=[];for(const [word,positions] of Object.entries(idx))for(const p of positions)pairs.push([p,word]);return pairs.sort((a,b)=>a[0]-b[0]).map(x=>x[1]).join(' ')}
+function normalize(w){let src=w.primary_location?.source||{};let doi=w.doi||'';return {key:keyFor({doi,title:w.title,year:w.publication_year}),title:w.title||'(Judul tidak tersedia)',authors:(w.authorships||[]).map(x=>x.author?.display_name).filter(Boolean).join(', '),year:w.publication_year||null,journal:src.display_name||'',publisher:src.host_organization_name||'',doi,abstract:abstractFromIndex(w.abstract_inverted_index),url:w.primary_location?.landing_page_url||(doi?doi:'')||w.id||'',oaUrl:w.best_oa_location?.pdf_url||w.best_oa_location?.landing_page_url||'',isOpenAccess:!!w.open_access?.is_oa,source:'OpenAlex',indexStatus:'Belum terverifikasi',savedAt:Date.now()}}
+async function search(){let q=$('query').value.trim(),from=Number($('from').value),to=Number($('to').value);if(!q){message('Masukkan kata kunci, judul, tema, atau variabel.');return}if(!Number.isInteger(from)||!Number.isInteger(to)||from>to||from<year-4||to>year){message(`Rentang tahun harus ${year-4}–${year}; maksimal lima tahun kalender terakhir.`);return}
+$('searchBtn').disabled=true;$('searchBtn').textContent='Mencari…';$('results').innerHTML='';message('Menghubungi OpenAlex API…');
+try{let filter=`from_publication_date:${from}-01-01,to_publication_date:${to}-12-31`;let url=new URL('https://api.openalex.org/works');url.searchParams.set('search',q);url.searchParams.set('filter',filter);url.searchParams.set('sort',$('sort').value);url.searchParams.set('per-page','25');url.searchParams.set('select','id,doi,title,publication_year,authorships,primary_location,abstract_inverted_index,cited_by_count,open_access,best_oa_location');let r=await fetch(url);if(!r.ok)throw Error('HTTP '+r.status);let data=await r.json();let found=(data.results||[]).map(normalize);renderResults(found);message(`Ditemukan ${found.length} hasil. Sumber: OpenAlex. Status Scopus/WoS belum diverifikasi.`)}catch(e){$('results').innerHTML='<div class="empty">Pencarian gagal. Periksa koneksi internet lalu coba lagi.</div>';message('Pencarian gagal: '+e.message)}finally{$('searchBtn').disabled=false;$('searchBtn').textContent='Cari Artikel'}}
+function renderResults(list){if(!list.length){$('results').innerHTML='<div class="empty">Tidak ditemukan artikel untuk kriteria ini.</div>';return}$('results').innerHTML=list.map((a,i)=>`<div class="article"><h3>${escapeHtml(a.title)}</h3><p class="muted">${escapeHtml(a.authors||'Penulis tidak tersedia')} • ${a.year||'Tahun tidak tersedia'}</p><p>${escapeHtml(a.journal||'Nama jurnal tidak tersedia')}</p><p><span class="badge">Indeks belum terverifikasi</span></p>${a.doi?`<p class="muted">DOI: ${escapeHtml(a.doi)}</p>`:''}<div class="btnrow"><button class="btn secondary smallbtn" onclick="detailResult(${i})">Detail</button><button class="btn secondary smallbtn" onclick="downloadArticle(${i},'results')">Unduh artikel</button><button class="btn smallbtn" onclick="saveResult(${i})">Simpan</button></div></div>`).join('');window.lastResults=list}
+window.downloadArticle=(i,where)=>{
+  const a=where==='results'?(window.lastResults||[])[i]:articles[i];
+  if(!a)return alert('Data artikel tidak ditemukan.');
+  const candidate=(a.oaUrl||'').trim();
+  if(candidate && /^https?:\/\//i.test(candidate)){
+    const ok=confirm('Metadata menyediakan lokasi akses terbuka atau teks lengkap. Buka tautan untuk membaca/mengunduh? Hak akses mengikuti lisensi penerbit.');
+    if(ok)window.open(candidate,'_blank','noopener');
+    return;
+  }
+  const fallback=(a.url||'').trim() || (a.doi?('https://doi.org/'+a.doi.replace(/^https?:\/\/doi\.org\//i,'')):'');
+  if(fallback){
+    alert('Tautan PDF akses terbuka tidak tersedia. Aplikasi membuka halaman sumber/DOI. Unduh hanya jika tersedia secara legal atau Anda memiliki akses institusi.');
+    window.open(fallback,'_blank','noopener');
+  }else alert('Tautan unduhan tidak tersedia pada metadata artikel ini.');
+};
+window.detailResult=i=>{let a=window.lastResults[i];alert(`${a.title}\n\nPenulis: ${a.authors||'Tidak tersedia'}\nTahun: ${a.year||'Tidak tersedia'}\nJurnal: ${a.journal||'Tidak tersedia'}\nPenerbit: ${a.publisher||'Tidak tersedia'}\nDOI: ${a.doi||'Tidak tersedia'}\nIndeks Scopus/WoS: Belum terverifikasi\n\nStatus akses terbuka: ${a.isOpenAccess?'Ditandai akses terbuka oleh metadata OpenAlex':'Tidak ditandai akses terbuka oleh metadata OpenAlex'}\nTautan PDF/lokasi akses terbuka: ${a.oaUrl||'Tidak tersedia'}\n\nAbstrak:\n${a.abstract||'Tidak tersedia pada sumber yang diperiksa'}\n\nSumber: ${a.url||'Tidak tersedia'}`)}
+window.saveResult=i=>{let a=window.lastResults[i],k=keyFor(a);if(articles.some(x=>x.key===k)){message('Artikel sudah ada di koleksi (DOI atau judul-tahun cocok).');return}articles.unshift({...a,key:k,savedAt:Date.now(),notes:''});persist();message('Artikel disimpan pada perangkat ini.')};
+function renderSaved(){$('countHome').textContent=articles.length;$('collectionList').innerHTML=articles.length?articles.map((a,i)=>`<div class="article"><h3>${escapeHtml(a.title)}</h3><p class="muted">${escapeHtml(a.authors||'Penulis tidak tersedia')} • ${a.year||'n.d.'} • ${escapeHtml(a.journal)}</p><div class="field"><label>Catatan pribadi</label><textarea onchange="updateNote(${i},this.value)" placeholder="Catatan (disimpan lokal)">${escapeHtml(a.notes||'')}</textarea></div><p class="muted">Status indeks: ${escapeHtml(a.indexStatus||"Belum terverifikasi")}</p><div class="btnrow"><button class="btn secondary smallbtn" onclick="openSource(${i})">Buka sumber</button><button class="btn secondary smallbtn" onclick="downloadArticle(${i},'collection')">Unduh artikel</button><button class="btn secondary smallbtn" onclick="startVerify(${i})">Periksa indeks</button><button class="btn danger smallbtn" onclick="removeArticle(${i})">Hapus</button></div></div>`).join(''):'<div class="empty">Belum ada artikel tersimpan.</div>';if(!articles.length){$('priorTable').innerHTML='<div class="empty">Simpan artikel terlebih dahulu agar tabel dapat dibuat.</div>';return}
+$('priorTable').innerHTML=`<div class="tablewrap"><table class="tbl"><thead><tr><th>No.</th><th>Penulis & Tahun</th><th>Judul Artikel</th><th>Jurnal dan Indeks</th><th>Tujuan Penelitian</th><th>Variabel/Teori</th><th>Metode dan Sampel</th><th>Hasil Penelitian</th><th>Research Gap</th><th>Relevansi</th></tr></thead><tbody>${articles.map((a,i)=>`<tr><td>${i+1}</td><td contenteditable="true">${escapeHtml(a.authors)} (${a.year||'n.d.'})</td><td contenteditable="true">${escapeHtml(a.title)}</td><td contenteditable="true">${escapeHtml(a.journal)}<br>Indeks belum terverifikasi</td><td contenteditable="true">Tidak tersedia pada sumber yang diperiksa</td><td contenteditable="true">Perlu pemeriksaan abstrak/teks</td><td contenteditable="true">Tidak tersedia pada sumber yang diperiksa</td><td contenteditable="true">Tidak tersedia pada sumber yang diperiksa</td><td contenteditable="true">Kandidat gap belum dianalisis</td><td contenteditable="true">Tinjau kesesuaian dengan topik penelitian</td></tr>`).join('')}</tbody></table></div><p class="muted">Sel dapat diedit untuk sesi ini. Ekspor koleksi menghasilkan data bibliografi; ekspor tabel lengkap akan ditambahkan pada versi berikutnya.</p>`}
+window.updateNote=(i,v)=>{articles[i].notes=v;localStorage.setItem('rfp_articles',JSON.stringify(articles))};window.removeArticle=i=>{if(confirm('Hapus artikel ini dari koleksi?')){articles.splice(i,1);persist()}};window.openSource=i=>{let u=articles[i].url;if(u)window.open(u,'_blank','noopener');else alert('Tautan sumber tidak tersedia.')};
+function download(name,content,type){let blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+function csvCell(v){return '"'+String(v??'').replace(/"/g,'""').replace(/\r?\n/g,' ')+'"'}
+$('exportCsv').onclick=()=>{if(!articles.length)return alert('Koleksi masih kosong.');let rows=[['Penulis dan Tahun','Judul Artikel','Jurnal','Sumber','Status Indeks','DOI','Tautan','Catatan'],...articles.map(a=>[`${a.authors} (${a.year||'n.d.'})`,a.title,a.journal,a.source,a.indexStatus,a.doi,a.url,a.notes])];download('research-finder-collection.csv','\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8')};
+$('exportRis').onclick=()=>{if(!articles.length)return alert('Koleksi masih kosong.');let out=articles.map(a=>['TY  - JOUR',...(a.title?['TI  - '+a.title]:[]),...(a.authors?a.authors.split(', ').map(x=>'AU  - '+x):[]),...(a.year?['PY  - '+a.year]:[]),...(a.journal?['JO  - '+a.journal]:[]),...(a.doi?['DO  - '+a.doi]:[]),...(a.url?['UR  - '+a.url]:[]),'ER  -'].join('\r\n')).join('\r\n\r\n');download('research-finder-collection.ris',out,'application/x-research-info-systems')};
+$('clearAll').onclick=()=>{if(confirm('Hapus semua artikel lokal? Tindakan ini tidak dapat dibatalkan.')){articles=[];persist()}};
+$('resetBtn').onclick=()=>{$('query').value='';$('from').value=year-4;$('to').value=year;$('results').innerHTML='<div class="empty">Belum ada hasil.</div>';$('searchStatus').classList.add('hidden')};$('searchBtn').onclick=search;
+$('installBtn').onclick=()=>alert('Buka aplikasi melalui Chrome Android. Jika situs di-host melalui HTTPS, buka menu ⋮ lalu pilih “Tambahkan ke layar utama” atau “Instal aplikasi”. File lokal yang dibuka langsung mungkin tidak mendukung instalasi PWA.');
+
+function officialSearchUrl(base, q){return base+encodeURIComponent(q.trim())}
+$('openScopus').onclick=()=>{let q=$('verifyTitle').value.trim();if(!q)return alert('Masukkan judul atau DOI.');window.open(officialSearchUrl('https://www.scopus.com/results/results.uri?st1=',q),'_blank','noopener')};
+$('openWos').onclick=()=>{let q=$('verifyTitle').value.trim();if(!q)return alert('Masukkan judul atau DOI.');window.open(officialSearchUrl('https://www.webofscience.com/wos/woscc/basic-search?search_mode=GeneralSearch&query=',q),'_blank','noopener')};
+window.startVerify=i=>{showTab('verify');let a=articles[i];$('verifyArticle').value=a.key;$('verifyTitle').value=a.doi||a.title;};
+function renderVerificationOptions(){let sel=$('verifyArticle'),old=sel.value;sel.innerHTML='<option value="">Pilih artikel</option>'+articles.map(a=>`<option value="${escapeHtml(a.key)}">${escapeHtml(a.title.slice(0,100))}</option>`).join('');if(articles.some(a=>a.key===old))sel.value=old}
+$('verifyArticle').onchange=()=>{let a=articles.find(x=>x.key===$('verifyArticle').value);if(a){$('verifyTitle').value=a.doi||a.title;$('verifyStatus').value=a.indexStatus||'Belum terverifikasi';let v=verifications.find(x=>x.key===a.key);$('verifyEvidence').value=v?.evidence||'';$('verifyNotes').value=v?.notes||''}};
+$('saveVerification').onclick=()=>{let key=$('verifyArticle').value, status=$('verifyStatus').value, evidence=$('verifyEvidence').value.trim(), notes=$('verifyNotes').value.trim();if(!key)return alert('Pilih artikel dari koleksi agar status dapat ditautkan.');let a=articles.find(x=>x.key===key);if(!a)return alert('Artikel tidak ditemukan dalam koleksi.');if(status.startsWith('Terverifikasi')&&!evidence)return alert('Untuk status terverifikasi, isi URL bukti sumber resmi yang diperiksa.');let record={key,title:a.title,status,evidence,notes,checkedAt:new Date().toISOString()};verifications=verifications.filter(x=>x.key!==key);verifications.unshift(record);a.indexStatus=status;a.verificationEvidence=evidence;a.verificationNotes=notes;localStorage.setItem('rfp_articles',JSON.stringify(articles));persistVerifications();$('verifyStatusMsg').textContent='Catatan pemeriksaan disimpan lokal. Pastikan status sesuai bukti yang benar-benar Anda lihat.';$('verifyStatusMsg').classList.remove('hidden');renderSaved()};
+function renderVerifications(){let el=$('verificationList');if(!el)return;if(!verifications.length){el.innerHTML='<div class="empty">Belum ada catatan pemeriksaan.</div>';return}el.innerHTML=verifications.map(v=>`<div class="article"><h3>${escapeHtml(v.title)}</h3><p><span class="badge">${escapeHtml(v.status)}</span></p><p class="muted">Diperiksa: ${escapeHtml(new Date(v.checkedAt).toLocaleString('id-ID'))}</p>${v.evidence?`<p><a href="${escapeHtml(v.evidence)}" target="_blank" rel="noopener">Buka bukti pemeriksaan</a></p>`:''}${v.notes?`<p>${escapeHtml(v.notes)}</p>`:''}<button class="btn danger smallbtn" onclick="deleteVerification('${encodeURIComponent(v.key)}')">Hapus catatan</button></div>`).join('')}
+window.deleteVerification=k=>{let key=decodeURIComponent(k);verifications=verifications.filter(v=>v.key!==key);let a=articles.find(x=>x.key===key);if(a){a.indexStatus='Belum terverifikasi';a.verificationEvidence='';a.verificationNotes='';localStorage.setItem('rfp_articles',JSON.stringify(articles))}persistVerifications();renderSaved()};
+
+renderSaved();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
